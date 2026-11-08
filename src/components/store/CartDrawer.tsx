@@ -26,7 +26,7 @@ export function CartDrawer() {
     if (isOpen) void syncCart();
   }, [isOpen, syncCart]);
 
-  const handleCheckout = () => {
+    const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
       window.open(checkoutUrl, "_blank");

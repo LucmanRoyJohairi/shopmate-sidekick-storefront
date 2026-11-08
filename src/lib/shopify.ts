@@ -167,9 +167,14 @@ export interface CartItem {
 
 export const CART_QUERY = `
   query cart($id: ID!) {
-    cart(id: $id) { id totalQuantity }
+    cart(id: $id) { 
+      id 
+      totalQuantity 
+      checkoutUrl
+    }
   }
 `;
+
 
 const CART_CREATE_MUTATION = `
   mutation cartCreate($input: CartInput!) {

@@ -34,7 +34,7 @@ export const useCartStore = create<CartStore>()(
       isLoading: false,
       isSyncing: false,
 
-      addItem: async (item) => {
+            addItem: async (item) => {
         const { items, cartId, clearCart } = get();
         const existingItem = items.find((i) => i.variantId === item.variantId);
         set({ isLoading: true });
@@ -56,12 +56,15 @@ export const useCartStore = create<CartStore>()(
             if (result.success) {
               const currentItems = get().items;
               set({
+                // REMOVE THIS BROKEN LINE:
+                // checkoutUrl: result.checkoutUrl ?? get().checkoutUrl, 
                 items: currentItems.map((i) =>
                   i.variantId === item.variantId ? { ...i, quantity: newQuantity } : i,
                 ),
               });
               return true;
             }
+
             if (result.cartNotFound) {
               clearCart();
               return get().addItem(item);
@@ -70,10 +73,15 @@ export const useCartStore = create<CartStore>()(
           }
           const result = await addLineToShopifyCart(cartId, { ...item, lineId: null });
           if (result.success) {
-            const currentItems = get().items;
-            set({ items: [...currentItems, { ...item, lineId: result.lineId ?? null }] });
-            return true;
-          }
+              const currentItems = get().items;
+              set({ 
+                // REMOVE THIS BROKEN LINE:
+                // checkoutUrl: result.checkoutUrl ?? get().checkoutUrl,
+                items: [...currentItems, { ...item, lineId: result.lineId ?? null }] 
+              });
+              return true;
+            }
+
           if (result.cartNotFound) {
             clearCart();
             return get().addItem(item);
@@ -86,6 +94,7 @@ export const useCartStore = create<CartStore>()(
           set({ isLoading: false });
         }
       },
+
 
       updateQuantity: async (variantId, quantity) => {
         if (quantity <= 0) {
@@ -135,21 +144,35 @@ export const useCartStore = create<CartStore>()(
       clearCart: () => set({ items: [], cartId: null, checkoutUrl: null }),
       getCheckoutUrl: () => get().checkoutUrl,
 
-      syncCart: async () => {
+             syncCart: async () => {
         const { cartId, isSyncing, clearCart } = get();
         if (!cartId || isSyncing) return;
+        
         set({ isSyncing: true });
         try {
           const data = await storefrontApiRequest(CART_QUERY, { id: cartId });
-          if (!data) return;
           const cart = data?.data?.cart;
-          if (!cart || cart.totalQuantity === 0) clearCart();
+          
+          if (!cart) {
+            clearCart();
+            return;
+          }
+
+          if (cart.totalQuantity === 0) {
+            clearCart();
+          } else {
+            set({ checkoutUrl: cart.checkoutUrl });
+          }
         } catch (error) {
-          console.error("Failed to sync cart with Shopify:", error);
+          // Keep this one to log actual infrastructure errors in production
+          console.error("❌ [Zustand Store] Shopify sync runtime exception:", error);
         } finally {
           set({ isSyncing: false });
         }
       },
+
+
+
     }),
     {
       name: "shopify-cart",
