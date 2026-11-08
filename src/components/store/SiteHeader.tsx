@@ -21,6 +21,7 @@ function ConciergeToggle() {
       size="sm"
       className="gap-2"
       aria-pressed={open}
+      aria-label="Concierge"
       onClick={() => (isDesktop ? setDesktop(!desktopOpen) : setMobile(!mobileOpen))}
     >
       <img src={conciergeMark} alt="" width={16} height={16} className="size-4" />
