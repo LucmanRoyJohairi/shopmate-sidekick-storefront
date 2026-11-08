@@ -43,7 +43,6 @@
   --color-brass: var(--brass);
   --color-brass-foreground: var(--brass-foreground);
   --color-sunken: var(--sunken);
-  --color-line: var(--line);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -88,8 +87,6 @@
   --brass: oklch(0.68 0.105 78);
   --brass-foreground: oklch(0.2 0.02 70);
   --sunken: oklch(0.935 0.016 78);
-  /* Architectural grid lines: muted ink at 30% */
-  --line: color-mix(in oklab, var(--muted-foreground) 30%, transparent);
   --destructive: oklch(0.55 0.17 30);
   --destructive-foreground: oklch(0.975 0.006 80);
   --border: oklch(0.885 0.012 75);
@@ -132,7 +129,6 @@
   --brass: oklch(0.74 0.11 78);
   --brass-foreground: oklch(0.2 0.02 70);
   --sunken: oklch(0.24 0.012 60);
-  --line: color-mix(in oklab, var(--muted-foreground) 30%, transparent);
   --destructive: oklch(0.65 0.18 28);
   --destructive-foreground: oklch(0.95 0.008 80);
   --border: oklch(1 0 0 / 10%);
