@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Products, cart and checkout come only from the Shopify Storefront API via `src/lib/shopify.ts` (API version 2026-10); checkout URLs come from `cartCreate` and open in a new tab — never hand-built store URLs, so checkout keeps working.
+- Cart state lives in the persisted Zustand store `src/stores/cartStore.ts` with `skipHydration`, rehydrated in `useCartSync` after mount — avoids SSR hydration mismatches.
+- The shopping assistant streams from the server route `src/routes/api/chat.ts` (logic in `src/lib/ai/concierge.server.ts`) through Lovable AI Gateway Responses; it receives the live catalog in its instructions and shows products via the `show_products` tool — keeps the model grounded in real products and keys server-side.
+- The assistant uses one shared AI SDK `Chat` instance (`src/components/assistant/assistant-chat.ts`) persisted to browser localStorage, rendered client-only as a desktop sidebar or mobile sheet — one conversation survives layout switches and reloads.
