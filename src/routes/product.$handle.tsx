@@ -52,6 +52,10 @@ export const Route = createFileRoute("/product/$handle")({
 
 function ProductPage() {
   const { handle } = Route.useParams();
+  return <ProductView key={handle} handle={handle} />;
+}
+
+function ProductView({ handle }: { handle: string }) {
   const { data: product } = useSuspenseQuery(productQueryOptions(handle));
   const { add, isLoading } = useAddToCart();
   const [activeImage, setActiveImage] = useState(0);
