@@ -84,11 +84,11 @@ function Index() {
 
       <section id="collection" className="relative scroll-mt-16 border-b border-line">
         <Crosshairs />
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line px-9 pb-6 pt-20 md:px-16">
+        <div className="relative flex flex-wrap items-end justify-between gap-4 border-b border-line px-9 pb-6 pt-20 md:px-16">
           <h2 className="font-display-tight text-5xl md:text-6xl">The collection</h2>
           <p className="label-mono">{products.length} objects</p>
+          <Crosshairs edge="bottom" />
         </div>
-        <Crosshairs edge="bottom-of-header" />
         {products.length === 0 ? (
           <div className="py-24 text-center">
             <p className="font-display-tight text-3xl">No products found</p>
