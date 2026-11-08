@@ -1,13 +1,15 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 
+import conciergeMark from "@/assets/concierge-mark.png";
 import heroDesk from "@/assets/hero-desk.jpg";
 import { askConcierge } from "@/components/assistant/assistant-chat";
 import { FeaturedIn } from "@/components/store/FeaturedIn";
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
 import { productsQueryOptions } from "@/lib/shopify";
+import { openAssistant } from "@/stores/uiStore";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -81,6 +83,63 @@ function Index() {
 
       <FeaturedIn />
 
+      <section aria-labelledby="principles-heading" className="border-b px-5 py-16 md:px-10 md:py-20">
+        <h2 id="principles-heading" className="label-mono">
+          What we stand for
+        </h2>
+        <div className="mt-10 grid border-y md:grid-cols-3">
+          {PRINCIPLES.map((p, i) => (
+            <div
+              key={p.k}
+              className={`flex flex-col py-10 md:px-10 md:py-12 ${i > 0 ? "border-t md:border-l md:border-t-0" : ""} ${i === 0 ? "md:pl-0" : ""} ${i === PRINCIPLES.length - 1 ? "md:pr-0" : ""}`}
+            >
+              <span className="font-display-tight text-5xl text-brass">{p.k}</span>
+              <h3 className="font-display-tight mt-8 text-3xl md:text-4xl">{p.t}</h3>
+              <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">{p.d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="concierge-heading" className="bg-primary text-primary-foreground">
+        <div className="flex flex-col gap-10 px-5 py-16 md:px-10 md:py-20 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-3">
+              <span className="grid size-9 place-items-center rounded-full bg-background">
+                <img src={conciergeMark} alt="" width={20} height={20} className="size-5" />
+              </span>
+              <p className="label-mono text-primary-foreground/60">Ordo Concierge</p>
+            </div>
+            <h2 id="concierge-heading" className="font-display-tight mt-6 text-5xl md:text-6xl">
+              Map out your desk <em className="text-brass">in a few questions.</em>
+            </h2>
+            <p className="mt-5 max-w-lg text-base text-primary-foreground/70">
+              Tell the concierge how you work and what's on your desk today. It will suggest a setup from the
+              collection and add the pieces to your cart for you.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            <Button
+              variant="brass"
+              size="xl"
+              onClick={() =>
+                askConcierge("Help me map out my desk workspace. Ask me a few questions about how I work first.")
+              }
+            >
+              Start planning <ArrowRight />
+            </Button>
+            <Button
+              variant="ghost"
+              size="xl"
+              className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              onClick={openAssistant}
+            >
+              Open the concierge
+            </Button>
+          </div>
+        </div>
+      </section>
+
       <section id="collection" className="scroll-mt-20 px-5 pt-20 md:px-10">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b pb-6">
           <h2 className="font-display-tight text-5xl md:text-6xl">The collection</h2>
@@ -98,18 +157,6 @@ function Index() {
             ))}
           </div>
         )}
-      </section>
-
-      <section className="hairline-grid mx-5 mt-24 rounded-xl border md:mx-10">
-        <div className="grid divide-y md:grid-cols-3 md:divide-x md:divide-y-0">
-          {PRINCIPLES.map((p) => (
-            <div key={p.k} className="p-8 md:p-10">
-              <p className="label-mono">{p.k}</p>
-              <h3 className="font-display-tight mt-6 text-3xl">{p.t}</h3>
-              <p className="mt-3 text-sm text-muted-foreground">{p.d}</p>
-            </div>
-          ))}
-        </div>
       </section>
     </>
   );
