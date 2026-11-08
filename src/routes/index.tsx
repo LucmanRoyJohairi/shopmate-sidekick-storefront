@@ -4,6 +4,7 @@ import { ArrowDown } from "lucide-react";
 
 import heroDesk from "@/assets/hero-desk.jpg";
 import { askConcierge } from "@/components/assistant/assistant-chat";
+import { FeaturedIn } from "@/components/store/FeaturedIn";
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
 import { productsQueryOptions } from "@/lib/shopify";
@@ -77,6 +78,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <FeaturedIn />
 
       <section id="collection" className="scroll-mt-20 px-5 pt-20 md:px-10">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b pb-6">
