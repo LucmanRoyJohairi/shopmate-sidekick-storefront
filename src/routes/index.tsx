@@ -4,6 +4,7 @@ import { ArrowDown } from "lucide-react";
 
 import heroDesk from "@/assets/hero-desk.jpg";
 import { askConcierge } from "@/components/assistant/assistant-chat";
+import { Crosshairs, GridRails } from "@/components/store/GridFrame";
 import { ProductCard } from "@/components/store/ProductCard";
 import { Button } from "@/components/ui/button";
 import { productsQueryOptions } from "@/lib/shopify";
@@ -40,8 +41,10 @@ function Index() {
   const { data: products } = useSuspenseQuery(productsQueryOptions());
 
   return (
-    <>
-      <section className="relative overflow-hidden border-b">
+    <div className="relative">
+      <GridRails />
+
+      <section className="relative overflow-hidden border-b border-line">
         <img
           src={heroDesk}
           alt="A calm desk with a walnut organizer, aluminum monitor riser, felt mat and mechanical keyboard"
@@ -50,7 +53,8 @@ function Index() {
           className="absolute inset-0 size-full object-cover object-[70%_center]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-transparent" />
-        <div className="relative flex min-h-[78vh] flex-col justify-end px-5 pb-14 pt-24 md:px-10 md:pb-20">
+        <GridRails columns={3} className="border-x-0" />
+        <div className="relative z-20 flex min-h-[78vh] flex-col justify-end px-9 pb-14 pt-24 md:px-16 md:pb-20">
           <p className="label-mono animate-rise">Collection 01 · The considered desk</p>
           <h1 className="font-display-tight mt-5 max-w-3xl animate-rise text-6xl [animation-delay:80ms] md:text-8xl">
             Fewer things.
@@ -78,18 +82,20 @@ function Index() {
         </div>
       </section>
 
-      <section id="collection" className="scroll-mt-20 px-5 pt-20 md:px-10">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b pb-6">
+      <section id="collection" className="relative scroll-mt-16 border-b border-line">
+        <Crosshairs />
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line px-9 pb-6 pt-20 md:px-16">
           <h2 className="font-display-tight text-5xl md:text-6xl">The collection</h2>
           <p className="label-mono">{products.length} objects</p>
         </div>
+        <Crosshairs edge="bottom-of-header" />
         {products.length === 0 ? (
           <div className="py-24 text-center">
             <p className="font-display-tight text-3xl">No products found</p>
             <p className="mt-2 text-sm text-muted-foreground">New pieces are on their way.</p>
           </div>
         ) : (
-          <div className="grid gap-x-6 gap-y-14 pt-10 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-x-6 gap-y-14 px-9 pb-20 pt-10 sm:grid-cols-2 md:px-16 xl:grid-cols-3">
             {products.map((p, i) => (
               <ProductCard key={p.node.id} product={p} index={i} />
             ))}
@@ -97,8 +103,9 @@ function Index() {
         )}
       </section>
 
-      <section className="hairline-grid mx-5 mt-24 rounded-xl border md:mx-10">
-        <div className="grid divide-y md:grid-cols-3 md:divide-x md:divide-y-0">
+      <section className="relative border-b border-line">
+        <Crosshairs />
+        <div className="hairline-grid mx-5 grid divide-y divide-line md:mx-10 md:grid-cols-3 md:divide-x md:divide-y-0">
           {PRINCIPLES.map((p) => (
             <div key={p.k} className="p-8 md:p-10">
               <p className="label-mono">{p.k}</p>
@@ -107,7 +114,8 @@ function Index() {
             </div>
           ))}
         </div>
+        <Crosshairs edge="bottom" />
       </section>
-    </>
+    </div>
   );
 }
